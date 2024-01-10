@@ -1,0 +1,19 @@
+{
+  "name": "pausalvatore-capstonefinale-backend",
+  "version": "0.1.0",
+  "description": "backend capstone finale",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
+  },
+  "author": "salvatorepau",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

@@ -1,0 +1,1 @@
+Creazione del backend per la gestione delle aziende che vorranno registrarsi per comparire nella piattaforma
