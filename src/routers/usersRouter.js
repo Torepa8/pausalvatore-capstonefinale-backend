@@ -19,7 +19,7 @@ usersRouter.get('/', checkUser, async (req, res, next) => {
 })
 
     .get('/:id', async (req, res, next) => {
-        //restituisce un utente registrato
+        //restituisce un utente registrato in base all'id
         try {
             const user = await User.findById(req.params.id);
             res.json(user);
@@ -27,15 +27,17 @@ usersRouter.get('/', checkUser, async (req, res, next) => {
             next(err);
         }
     })
+
     //crea un nuovo utente
     .post('/', async (req, res, next) => {
-        const userExist = await User.find({ mail: req.body.mail })
+        //controlliamo se l'utente è già registrato
+        const {mail} = req.body
+        const userExist = await User.findOne({ mail })
         if (userExist) {
-            console.log(userExist)
-            const token = jwt.sign({ userId: userExist._id }, process.env.MYSEC, {
-                expiresIn: "48h",
-            })
-            res.status(201).json({ user: userExist, token })
+            console.log("Utente Registrato!")
+            res.json({ message: "Utente già registrato" })
+            //qui farò redirect alla pagina di login
+            
         } else {
             try {
                 const passwordHashata = await bcrypt.hash(req.body.password, 10)
@@ -80,4 +82,3 @@ usersRouter.get('/', checkUser, async (req, res, next) => {
     });
 
 export default usersRouter;
-

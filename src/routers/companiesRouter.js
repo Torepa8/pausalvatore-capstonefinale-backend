@@ -2,12 +2,13 @@
 
 import express from 'express';
 import { company } from '../models/companies.js';
+import checkCompany from '../middlewares/checkCompany.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 const companiesRouter = express.Router();
 
-companiesRouter.get('/', async (req, res, next) => {
+companiesRouter.get('/', checkCompany, async (req, res, next) => {
     try {
         const companies = await company.find();
         res.json(companies);

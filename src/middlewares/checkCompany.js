@@ -1,9 +1,8 @@
-//controlliamo se l'utente è autorizzato a fare una determinata richiesta
+//controlliamo se l'azienda che accede ha i permessi per fare una determinata richiesta
 
 import jwt from "jsonwebtoken"
-import { User } from "../models/users.js"
 
-const checkUser = async (req, res, next) => {
+const checkCompany = async (req, res, next) => {
     let token = ""
 
     if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
@@ -15,12 +14,12 @@ const checkUser = async (req, res, next) => {
     if (token) {
         try {
             const decoded = await jwt.verify(token, process.env.MYSEC)
-            const user = await User.findById(decoded.userId)
-            if (user) {
-                req.user = user
+            const company = await company.findById(decoded.companyId)
+            if (company) {
+                req.company = company
                 next()
             } else {
-                const error = new Error("User not found")
+                const error = new Error("Company not found")
                 error.httpStatusCode = 404
                 next(error)
             }
@@ -35,4 +34,4 @@ const checkUser = async (req, res, next) => {
     }
 }
 
-export default checkUser
+export default checkCompany
