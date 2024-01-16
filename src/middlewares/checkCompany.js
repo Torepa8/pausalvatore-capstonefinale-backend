@@ -1,6 +1,7 @@
 //controlliamo se l'azienda che accede ha i permessi per fare una determinata richiesta
 
 import jwt from "jsonwebtoken"
+import { company } from "../models/companies.js"
 
 const checkCompany = async (req, res, next) => {
     let token = ""
