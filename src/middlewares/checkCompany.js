@@ -10,13 +10,13 @@ const checkCompany = async (req, res, next) => {
         token = req.headers.authorization.split(" ")[1]
     }
 
-    console.log(token)
+    // console.log(token)
 
     if (token) {
         try {
             const decoded = await jwt.verify(token, process.env.MYSEC)
-            const company = await company.findById(decoded.companyId)
-            if (company) {
+            const companyId = await company.findById(decoded.companyId)
+            if (companyId) {
                 req.company = company
                 next()
             } else {
