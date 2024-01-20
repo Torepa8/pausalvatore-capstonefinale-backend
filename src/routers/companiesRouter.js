@@ -1,7 +1,7 @@
 // creo tutte le rotte per le companies
 
 import express from 'express';
-import { company } from '../models/companies.js';
+import { Company } from '../models/companies.js';
 import checkCompany from '../middlewares/checkCompany.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -10,7 +10,7 @@ const companiesRouter = express.Router();
 
 companiesRouter.get('/', checkCompany, async (req, res, next) => {
     try {
-        const companies = await company.find();
+        const companies = await Company.find();
         res.json(companies);
     } catch (err) {
         next(err);
@@ -19,7 +19,7 @@ companiesRouter.get('/', checkCompany, async (req, res, next) => {
 
     .get('/:id', async (req, res, next) => {
         try {
-            const company = await company.findById(req.params.id);
+            const company = await Company.findById(req.params.id);
             res.json(company);
         } catch (err) {
             next(err);
@@ -29,12 +29,12 @@ companiesRouter.get('/', checkCompany, async (req, res, next) => {
     .post('/', async (req, res, next) => {
         try {
             const passwordHashata = await bcrypt.hash(req.body.password, 10)
-            const newCompany = await company.create({ ...req.body, password: passwordHashata })
+            const newCompany = await Company.create({ ...req.body, password: passwordHashata })
             const token = jwt.sign({ userId: newCompany._id }, process.env.MYSEC, {
                 expiresIn: "48h",
             })
             const { password: _, __v, ...newCompanyWithoutPassword } = newCompany.toObject()
-            res.status(201).json({ company: newCompanyWithoutPassword, token })
+            res.status(201).json({ Company: newCompanyWithoutPassword, token })
         } catch (err) {
             next(err)
         }
@@ -42,7 +42,7 @@ companiesRouter.get('/', checkCompany, async (req, res, next) => {
 
     .put('/:id', async (req, res, next) => {
         try {
-            const updateCompany = new company(req.body)
+            const updateCompany = new Company(req.body)
             const { _id } = updateCompany
         } catch (err) {
             next(err)
@@ -51,7 +51,7 @@ companiesRouter.get('/', checkCompany, async (req, res, next) => {
 
     .delete('/:id', async (req, res, next) => {
         try {
-            const deleteCompany = await company.findByIdAndDelete(req.params.id)
+            const deleteCompany = await Company.findByIdAndDelete(req.params.id)
             if (deleteCompany) {
                 res.status(204).send()
             }
