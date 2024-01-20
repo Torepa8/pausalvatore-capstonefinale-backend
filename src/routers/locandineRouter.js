@@ -2,6 +2,7 @@
 
 import express from 'express';
 import { Locandine } from '../models/locandine.js';
+import checkCompany from '../middlewares/checkCompany.js';
 
 const locandineRouter = express.Router();
 
@@ -14,9 +15,9 @@ locandineRouter.get('/', async (req, res, next) => {
     }
 })
 
-.post('/', async (req, res, next) => {
+.post('/', checkCompany, async (req, res, next) => {
     try {
-        const newLocandina = await Locandine.create(req.body)
+        const newLocandina = await Locandine.create(req.body).populate("IdCompany")
         res.status(201).json(newLocandina)
     } catch (err) {
         next(err)
