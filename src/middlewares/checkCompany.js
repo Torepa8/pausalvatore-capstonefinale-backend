@@ -15,9 +15,9 @@ const checkCompany = async (req, res, next) => {
     if (token) {
         try {
             const decoded = await jwt.verify(token, process.env.MYSEC)
-            const companyId = await company.findById(decoded.companyId)
-            if (companyId) {
-                req.company = company
+            const companyVerify = await company.findById(decoded.companyId)
+            if (companyVerify) {
+                req.company = companyVerify
                 next()
             } else {
                 const error = new Error("Company not found")
