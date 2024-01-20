@@ -10,8 +10,6 @@ const checkCompany = async (req, res, next) => {
         token = req.headers.authorization.split(" ")[1]
     }
 
-    // console.log(token)
-
     if (token) {
         try {
             const decoded = await jwt.verify(token, process.env.MYSEC)

@@ -2,14 +2,14 @@
 import {mongoose, Schema} from 'mongoose';
 
 const locandineSchema = new Schema({
-    name: {
+    nameOffer: {
         type: String,
         required: true
     },
     description: {
         type: String
     },
-    immagine:[{
+    image:[{
         type: String,
         required: true
     }],

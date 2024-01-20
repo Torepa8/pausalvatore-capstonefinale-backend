@@ -1,6 +1,7 @@
 import express from 'express';
 import companiesRouter from './routers/companiesRouter.js';
 import usersRouter from './routers/usersRouter.js';
+import locandineRouter from './routers/locandineRouter.js';
 import mongoose from 'mongoose';
 import list from 'express-list-endpoints';
 
@@ -22,6 +23,7 @@ server.use(express.json());
 
 server.use('/companies', companiesRouter);
 server.use('/users', usersRouter);
+server.use('/locandine', locandineRouter);
 
 // server.listen(port, () => {
 //     console.log(`Server is listening on port ${port}`);
