@@ -8,7 +8,7 @@ import checkUser from '../middlewares/checkUser.js';
 
 const usersRouter = express.Router();
 
-usersRouter.get('/', checkUser, async (req, res, next) => {
+usersRouter.get('/', async (req, res, next) => {
     //restituisce tutti gli utenti registrati
     try {
         const users = await User.find();

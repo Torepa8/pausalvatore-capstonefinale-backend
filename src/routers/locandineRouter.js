@@ -8,16 +8,16 @@ const locandineRouter = express.Router();
 
 locandineRouter.get('/', async (req, res, next) => {
     try {
-        const locandine = await Locandine.find();
-        res.json(locandine).populate("idCompany");
+        const locandine = await Locandine.find({}).populate("company");
+        res.json(locandine);
     } catch (err) {
         next(err);
     }
 })
 
-.post('/', checkCompany, async (req, res, next) => {
+.post('/', async (req, res, next) => {
     try {
-        const newLocandina = await Locandine.create(req.body).populate("idCompany")
+        const newLocandina = await Locandine.create(req.body).populate("company")
         res.status(201).json(newLocandina)
     } catch (err) {
         next(err)

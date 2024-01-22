@@ -13,9 +13,9 @@ const locandineSchema = new Schema({
         type: String,
         required: true
     }],
-    idCompany: {
+    company: {
         type: Schema.Types.ObjectId,
-        ref: "Companies",
+        ref: "companies",
         required: true,
       },
 });

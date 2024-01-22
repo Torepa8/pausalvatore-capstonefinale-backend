@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 
 const companiesRouter = express.Router();
 
-companiesRouter.get('/', checkCompany, async (req, res, next) => {
+companiesRouter.get('/', async (req, res, next) => {
     try {
         const companies = await Company.find();
         res.json(companies);
