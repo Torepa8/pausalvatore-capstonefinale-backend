@@ -15,7 +15,7 @@ const locandineSchema = new Schema({
     }],
     idCompany: {
         type: Schema.Types.ObjectId,
-        ref: "companies",
+        ref: "Companies",
         required: true,
       },
 });

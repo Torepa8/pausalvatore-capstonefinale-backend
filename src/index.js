@@ -25,10 +25,6 @@ server.use('/companies', companiesRouter);
 server.use('/users', usersRouter);
 server.use('/locandine', locandineRouter);
 
-// server.listen(port, () => {
-//     console.log(`Server is listening on port ${port}`);
-// });
-
 server.get('/hello', (req, res) => {
     res.json({ messaggio: "Hello Junior Dev" });
 });
