@@ -40,6 +40,34 @@ companiesRouter.get('/', async (req, res, next) => {
         }
     })
 
+    .post('/login', async (req, res, next) => {
+        const isRegistered = await Company.findOne({ mail: req.body.mail })
+        if (isRegistered) {
+            const isPasswordCorrect = await bcrypt.compare(req.body.password, isRegistered.password)
+            if (isPasswordCorrect) {
+                console.log("Login effettuato")
+                try {
+                    const token = jwt.sign({ companyId: isRegistered._id }, process.env.MYSEC, {
+                        expiresIn: "100000h",
+                    })
+                    res.status(200).json({ token })
+                }
+                catch (err) {
+                    next(err)
+                }
+            } else {
+                const error = new Error("Password is not correct")
+                error.httpStatusCode = 401
+                next(error)
+            }
+        }
+        else {
+            const error = new Error("Company not found")
+            error.httpStatusCode = 404
+            next(error)
+        }
+    })
+
     .put('/:id', async (req, res, next) => {
         try {
             const updateCompany = new Company(req.body)

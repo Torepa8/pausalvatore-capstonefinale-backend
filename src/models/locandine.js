@@ -7,17 +7,20 @@ const locandineSchema = new Schema({
         required: true
     },
     description: {
-        type: String
-    },
-    image:[{
         type: String,
         required: true
-    }],
+    },
+    image:{
+        type: String,
+        required: true
+    },
+    expirationDate: {
+        type: Date,
+    },
     company: {
         type: Schema.Types.ObjectId,
         ref: "companies",
-        required: true,
-      },
+      }
 });
 
-export const Locandine = mongoose.model('Locandine', locandineSchema, "locandine");
+export const Locandine = mongoose.model('locandine', locandineSchema, "locandine");
