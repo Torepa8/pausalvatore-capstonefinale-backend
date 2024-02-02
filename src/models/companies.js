@@ -4,19 +4,19 @@ import { Schema, mongoose } from 'mongoose';
 const companySchema = new Schema({
     name: {
         type: String,
-        required: true
+        // required: true
     },
     businessName: {
         type: String,
-        required: true
+        // required: true
     },
     vat: {
         type: String,
-        required: true
+        // required: true
     },
     address: {
         type: String,
-        required: true
+        // required: true
     },
     mail: {
         type: String,
@@ -24,7 +24,7 @@ const companySchema = new Schema({
     },
     phone: {
         type: String,
-        required: true
+        // required: true
     },
     password: {
         type: String,
