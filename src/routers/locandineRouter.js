@@ -20,13 +20,25 @@ locandineRouter.get('/', async (req, res, next) => {
         next(err);
     }
 })
+    .get('/:id', checkCompany, async (req, res, next) => {
+        //restituiamo tutte le locandine tramite id dell'azienda
+        try {
+            const locandine = await Locandine.find({ company: req.params.id }).populate(
+                "company",
+                "-password -__v -_id -vat")
+                .select("-__v -_id");
+            res.json(locandine);
+        } catch (err) {
+            next(err);
+        }
+    })
     .post('/', checkCompany, async (req, res, next) => {
         //recuperiamo l'id dell'azienda che ha fatto la richiesta
         const companyBycheck = req.Company._id
-        
+
         //creiamo la locandina
         try {
-            const newLocandina = await Locandine.create({...req.body,  company: companyBycheck })
+            const newLocandina = await Locandine.create({ ...req.body, company: companyBycheck })
             res.status(201).json(newLocandina)
         } catch (err) {
             next(err)
