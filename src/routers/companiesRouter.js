@@ -50,7 +50,7 @@ companiesRouter.get('/', async (req, res, next) => {
                     const token = jwt.sign({ companyId: isRegistered._id }, process.env.MYSEC, {
                         expiresIn: "100000h",
                     })
-                    res.status(200).json({ token })
+                    res.status(200).json({ token, company: isRegistered })
                 }
                 catch (err) {
                     next(err)
