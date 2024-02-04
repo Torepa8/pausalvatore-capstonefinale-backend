@@ -76,7 +76,7 @@ usersRouter.get('/', async (req, res, next) => {
             }
         }else{
             console.log("Utente non Registrato!")
-            next()
+            res.sendStatus(404)
             //redirect alla pagina di registrazione
             // res.redirect('/register')
         }
