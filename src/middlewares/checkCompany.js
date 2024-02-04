@@ -13,8 +13,7 @@ const checkCompany = async (req, res, next) => {
     if (token) {
         try {
             const decoded = await jwt.verify(token, process.env.MYSEC)
-            console.log(decoded)
-            const companyVerify = await Company.findById(decoded)
+            const companyVerify = await Company.findById(decoded.companyId)
             if (companyVerify) {
                 req.Company = companyVerify
                 next()

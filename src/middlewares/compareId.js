@@ -7,10 +7,9 @@ import { Company } from "../models/companies.js"
 import { Locandine } from "../models/locandine.js"
 
 const compareId = async (req, res, next) => {
-    const companyId = req.Company._id.toString()
+    const companyId = req.Company._id
     const locandinaId = req.params.id
-    const locs=await Locandine.findById(locandinaId)
-    if (companyId===locandinaId.company.toString()) {
+    if (companyId===locandinaId) {
         next()
             } else {
                 const error = new Error("Non puoi modificare le locandine di un'altra azienda")
