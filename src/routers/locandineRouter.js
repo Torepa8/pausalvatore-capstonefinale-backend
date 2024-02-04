@@ -3,10 +3,20 @@
 import express from 'express';
 import { Locandine } from '../models/locandine.js';
 import checkCompany from '../middlewares/checkCompany.js';
+import compareId from '../middlewares/compareId.js';
 import multer from 'multer';
-import cloud from '../middlewares/cloud.js';
 
-const upload = multer({ storage: cloud });
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { v2 as cloudinary } from "cloudinary"
+
+const cloudstorage = new CloudinaryStorage({
+    cloudinary,
+    params: {
+        folder: "capstoneproject",
+    },
+})
+
+const upload = multer({ storage: cloudstorage });
 
 const locandineRouter = express.Router();
 
@@ -35,7 +45,7 @@ locandineRouter.get('/', async (req, res, next) => {
         }
     })
     .get('/:id', checkCompany, async (req, res, next) => {
-        //restituiamo tutte le locandine tramite id dell'azienda loggata
+        //restituiamo tutte le locandine dell'azienda loggata
         //per poterle visualizzare nella sua area riservata
         try {
             const locandine = await Locandine.find({ company: req.params.id }).populate(
@@ -59,13 +69,15 @@ locandineRouter.get('/', async (req, res, next) => {
             next(err)
         }
     })
-    .patch('/:id', checkCompany, upload.single("loc-img"), async (req, res, next) => {
-        try {
-            const locandina = await Locandine.findByIdAndUpdate(req.params
-                .id, req.file.path, { new: true })
-            res.json(locandina)
-        } catch (err) {
-            next(err)
+    .patch('/:id', checkCompany, compareId, upload.single("image"), async (req, res, next) => {
+        if (req.file) {
+            try {
+                const newimageLoc = await Locandine.findByIdAndUpdate(req.params
+                    .id, {image:req.file.path}, { new: true })
+                res.json(newimageLoc)
+            } catch (err) {
+                next(err)
+            }
         }
     })
 
