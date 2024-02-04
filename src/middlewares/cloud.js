@@ -6,7 +6,7 @@ import {v2 as cloudinary} from "cloudinary"
 const cloudstorage = new CloudinaryStorage({
     cloudinary,
     params: {
-        folder: "blogfolder",
+        folder: "capstoneproject",
     },
 })
 

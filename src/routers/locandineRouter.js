@@ -3,8 +3,10 @@
 import express from 'express';
 import { Locandine } from '../models/locandine.js';
 import checkCompany from '../middlewares/checkCompany.js';
+import multer from 'multer';
 import cloud from '../middlewares/cloud.js';
 
+const upload = multer({ storage: cloud });
 
 const locandineRouter = express.Router();
 
@@ -20,8 +22,21 @@ locandineRouter.get('/', async (req, res, next) => {
         next(err);
     }
 })
+    .get('/:id', async (req, res, next) => {
+        //restituiamo la locandina cliccata
+        try {
+            const locandina = await Locandine.findById(req.params.id).populate(
+                "company",
+                "-password -__v -_id -vat")
+                .select("-__v -_id");
+            res.json(locandina);
+        } catch (err) {
+            next(err);
+        }
+    })
     .get('/:id', checkCompany, async (req, res, next) => {
-        //restituiamo tutte le locandine tramite id dell'azienda
+        //restituiamo tutte le locandine tramite id dell'azienda loggata
+        //per poterle visualizzare nella sua area riservata
         try {
             const locandine = await Locandine.find({ company: req.params.id }).populate(
                 "company",
@@ -40,6 +55,15 @@ locandineRouter.get('/', async (req, res, next) => {
         try {
             const newLocandina = await Locandine.create({ ...req.body, company: companyBycheck })
             res.status(201).json(newLocandina)
+        } catch (err) {
+            next(err)
+        }
+    })
+    .patch('/:id', checkCompany, upload.single("loc-img"), async (req, res, next) => {
+        try {
+            const locandina = await Locandine.findByIdAndUpdate(req.params
+                .id, req.file.path, { new: true })
+            res.json(locandina)
         } catch (err) {
             next(err)
         }
