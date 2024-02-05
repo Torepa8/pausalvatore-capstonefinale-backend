@@ -9,6 +9,7 @@ import { Locandine } from "../models/locandine.js"
 const compareId = async (req, res, next) => {
     const companyId = req.Company._id
     const locandinaId = req.params.companyId
+    console.log(companyId, locandinaId)
     if (companyId === locandinaId) {
         next()
     } else {
