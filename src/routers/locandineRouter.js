@@ -44,11 +44,13 @@ locandineRouter.get('/', async (req, res, next) => {
             next(err);
         }
     })
-    .get('/company/', checkCompany, async (req, res, next) => {
+    .get('/company/:companyId', checkCompany, async (req, res, next) => {
         //restituiamo tutte le locandine dell'azienda loggata
         //per poterle visualizzare nella sua area riservata
-        //recuperiamo l'id dell'azienda che ha fatto la richiesta del checkcompany
-        const companyId= req.Company._id
+        const idByToken = req.Company._id
+        if(idByToken !== req.params.companyId){
+            return res.status(401).send("Non puoi visualizzare le locandine di un'altra azienda")
+        }
 
         try {
             const locandine = await Locandine.find({ company: req.params.companyId }).populate(
