@@ -85,7 +85,7 @@ locandineRouter.get('/', async (req, res, next) => {
             }
         }
     })
-    .delete('/:id', checkCompany, compareId, async (req, res, next) => {
+    .delete('/:id', checkCompany, async (req, res, next) => {
         //cancelliamo la locandina
         try {
             await Locandine.findByIdAndDelete(req.params.id)
