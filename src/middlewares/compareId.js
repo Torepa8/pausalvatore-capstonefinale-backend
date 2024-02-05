@@ -7,7 +7,7 @@ import { Company } from "../models/companies.js"
 import { Locandine } from "../models/locandine.js"
 
 const compareId = async (req, res, next) => {
-    const companyId = req.Company._id
+    const companyId = req.Company
     const locandinaId = req.params.companyId
     console.log(companyId, locandinaId)
     if (companyId === locandinaId) {
