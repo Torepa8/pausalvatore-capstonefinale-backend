@@ -74,7 +74,7 @@ locandineRouter.get('/', async (req, res, next) => {
             next(err)
         }
     })
-    .patch('/:id', checkCompany, compareId, upload.single("image"), async (req, res, next) => {
+    .patch('/:id', checkCompany, upload.single("image"), async (req, res, next) => {
         if (req.file) {
             try {
                 const newimageLoc = await Locandine.findByIdAndUpdate(req.params
