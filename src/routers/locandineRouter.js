@@ -32,7 +32,7 @@ locandineRouter.get('/', async (req, res, next) => {
         next(err);
     }
 })
-    .get('/:id', async (req, res, next) => {
+    .get('/:id', checkCompany, compareId, async (req, res, next) => {
         //restituiamo la locandina cliccata
         try {
             const locandina = await Locandine.findById(req.params.id).populate(
@@ -44,11 +44,11 @@ locandineRouter.get('/', async (req, res, next) => {
             next(err);
         }
     })
-    .get('/:id', checkCompany, async (req, res, next) => {
+    .get('/company/:companyId', checkCompany, async (req, res, next) => {
         //restituiamo tutte le locandine dell'azienda loggata
         //per poterle visualizzare nella sua area riservata
         try {
-            const locandine = await Locandine.find({ company: req.params.id }).populate(
+            const locandine = await Locandine.find({ company: req.params.companyId }).populate(
                 "company",
                 "-password -__v -_id -vat")
                 .select("-__v -_id");
@@ -73,7 +73,7 @@ locandineRouter.get('/', async (req, res, next) => {
         if (req.file) {
             try {
                 const newimageLoc = await Locandine.findByIdAndUpdate(req.params
-                    .id, {image:req.file.path}, { new: true })
+                    .id, { image: req.file.path }, { new: true })
                 res.json(newimageLoc)
             } catch (err) {
                 next(err)

@@ -9,13 +9,13 @@ import { Locandine } from "../models/locandine.js"
 const compareId = async (req, res, next) => {
     const companyId = req.Company._id
     const locandinaId = req.params.id
-    if (companyId===locandinaId) {
+    if (companyId === locandinaId) {
         next()
-            } else {
-                const error = new Error("Non puoi modificare le locandine di un'altra azienda")
-                error.httpStatusCode = 404
-                next(error)
-            }
+    } else {
+        const error = new Error("Non puoi modificare le locandine di un'altra azienda")
+        error.httpStatusCode = 404
+        next(error)
     }
+}
 
 export default compareId
