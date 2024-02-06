@@ -56,7 +56,7 @@ locandineRouter.get('/', async (req, res, next) => {
             const locandine = await Locandine.find({ company: req.params.companyId }).populate(
                 "company",
                 "-password -__v -_id -vat")
-                .select("-__v -_id");
+                .select("-__v");
             res.json(locandine);
         } catch (err) {
             next(err);
