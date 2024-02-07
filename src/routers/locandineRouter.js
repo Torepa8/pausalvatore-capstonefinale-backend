@@ -32,23 +32,11 @@ locandineRouter.get('/', async (req, res, next) => {
         next(err);
     }
 })
-    .get('/:id', checkCompany, compareId, async (req, res, next) => {
-        //restituiamo la locandina cliccata
-        try {
-            const locandina = await Locandine.findById(req.params.id).populate(
-                "company",
-                "-password -__v -_id -vat")
-                .select("-__v -_id");
-            res.json(locandina);
-        } catch (err) {
-            next(err);
-        }
-    })
     .get('/company/:companyId', checkCompany, async (req, res, next) => {
         //restituiamo tutte le locandine dell'azienda loggata
         //per poterle visualizzare nella sua area riservata
         const idByToken = req.Company._id.toString()
-        if(idByToken !== req.params.companyId){
+        if (idByToken !== req.params.companyId) {
             return res.status(401).send("Non puoi visualizzare le locandine di un'altra azienda")
         }
 
@@ -83,6 +71,16 @@ locandineRouter.get('/', async (req, res, next) => {
             } catch (err) {
                 next(err)
             }
+        }
+    })
+    .put('/:id', checkCompany, compareId, async (req, res, next) => {
+        //modifichiamo la locandina
+        try {
+            const locandina = await Locandine.findByIdAndUpdate(
+                req.params.id, req.body, { new: true })
+            res.json(locandina)
+        } catch (err) {
+            next(err)
         }
     })
     .delete('/:id', checkCompany, async (req, res, next) => {
