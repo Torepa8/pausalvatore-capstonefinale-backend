@@ -32,6 +32,18 @@ locandineRouter.get('/', async (req, res, next) => {
         next(err);
     }
 })
+    .get('/:id', async (req, res, next) => {
+        //restituisce una locandina in base all'id
+        try {
+            const locandina = await Locandine.findById(req.params.id).populate(
+                "company",
+                "-password -__v -_id -vat")
+                .select("-__v");
+            res.json(locandina);
+        } catch (err) {
+            next(err);
+        }
+    })
     .get('/company/:companyId', checkCompany, async (req, res, next) => {
         //restituiamo tutte le locandine dell'azienda loggata
         //per poterle visualizzare nella sua area riservata
